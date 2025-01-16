@@ -1,0 +1,58 @@
+/* navbar.css */
+:root {
+  --primary-color: #ffffff;
+  --secondary-color: #000000;
+  --accent-color: #3498db;
+  --text-color: #000000;
+  --navbar-height: 56px;
+}
+
+.navbar {
+  background-color: white !important;
+  color: var(--text-color);
+  height: var(--navbar-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.navbar-brand {
+  color: var(--text-color);
+  font-size: 1.5rem;
+  text-decoration: none;
+  margin-left: 45px;
+}
+
+.form-inline {
+  display: flex;
+  align-items: center;
+}
+
+.hello-msg {
+  color: var(--text-color);
+  font-size: 1rem;
+  margin-right: 15px;
+  text-decoration: none;
+}
+
+.hello-msg:hover {
+  text-decoration: underline;
+}
+
+.main-title{
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.inter-font {
+  font-family: "Inter", serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.navbar img {
+  height: 40px;
+  margin-right: 10px;
+}

@@ -1,0 +1,22 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static '/css/barra.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static '/css/u.css' %}">
+
+{% load static %}
+<nav class="navbar navbar-dark bg-dark">
+    <div class="justify-start d-flex align-items-center">
+        <img src="{% static 'images/ups_logo.png' %}" alt="ups_logo">
+        <i class="fas fa-shopping-cart" style="margin-right: 5px;"></i>
+        <span class="main-title inter-font">Online Shoppers Prediction</span>
+    </div>
+    
+    <div class="justify-end">
+        <ul class="form-inline my-2 my-lg-0">
+            <span class="hello-msg">Hello, {{ request.user }}!</span>
+            <span>
+                <a class="hello-msg" href="{% url 'logout' %}">Close Sesion</a>
+            </span>
+        </ul>
+    </div>
+</nav>
