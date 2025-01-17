@@ -4,110 +4,88 @@
 
 {% load event_tags %}
 {% load static %}
-
 <div class="limiter">
-<div class="container-login100 p-b-0 p-t-0">
-	<div class="wrap-login100 p-l-30 p-r-30 p-t-20 p-b-20">
+	<div class="container-login100 p-b-0 p-t-0">
+	  <div class="wrap-login100 p-l-30 p-r-30 p-t-20 p-b-20">
 		<div class="Search">
-			<form method="get">
-				<input class="form-control" type="text" name="" id="" placeholder="Value 1:">
-				<input class="form-control" type="text" name="" id="" placeholder="Value 2:">
-				<input class="form-control" type="text" name="" id="" placeholder="Value 3:">
-				<input class="form-control" type="text" name="" id="" placeholder="Value 4:">
-				<input class="form-control" type="text" name="" id="" placeholder="Value 5	:">
-				<div class="row justify-content-center">
-					<!-- <div class="col">
-						<input class="form-control" type="text"  placeholder="Ubicación"
-						name="{{ myFilter.form.location.name }}"
-						id="{{ myFilter.form.location.id_for_label }}"
-						{% if myFilter.form.location.value != None %}value="{{ myFilter.form.location.value|stringformat:'s' }}"{% endif %}
-						maxlength="{{ myFilter.form.location.field.max_length }}"
-						{% if myFilter.form.location.field.required %}required{% endif %}>
-					</div> -->
-
-					<!-- <div class="col">
-						<input class="form-control" type="text"  placeholder="Alerta enviada a"
-						name="{{ myFilter.form.alert_receiver.name }}"
-						id="{{ myFilter.form.alert_receiver.id_for_label }}"
-						{% if myFilter.form.alert_receiver.value != None %}value="{{ myFilter.form.alert_receiver.value|stringformat:'s' }}"{% endif %}
-						maxlength="{{ myFilter.form.alert_receiver.field.max_length }}"
-						{% if myFilter.form.alert_receiver.field.required %}required{% endif %}>
-					</div> -->
-
-					<!-- <div class="col-2">
-						<input class="form-control" type="text" id="date" placeholder="Fecha de Inicio" autocomplete="off"
-						name="{{ myFilter.form.start_date.name }}"
-						id="{{ myFilter.form.start_date.id_for_label }}"
-						{% if myFilter.form.start_date.value != None %}value="{{ myFilter.form.start_date.value|stringformat:'s' }}"{% endif %}
-						maxlength="{{ myFilter.form.start_date.field.max_length }}"
-						{% if myFilter.form.start_date.field.required %}required{% endif %}>
-					</div> -->
-
-					<!-- <div class="col-2">
-						<input class="form-control" type="text" id="date" placeholder="Fecha de Fin" autocomplete="off"
-						name="{{ myFilter.form.end_date.name }}"
-						id="{{ myFilter.form.end_date.id_for_label }}"
-						{% if myFilter.form.end_date.value != None %}value="{{ myFilter.form.end_date.value|stringformat:'s' }}"{% endif %}
-						maxlength="{{ myFilter.form.end_date.field.max_length }}"
-						{% if myFilter.form.end_date.field.required %}required{% endif %}>
-					</div> -->
-
-					<div class="col-1">
-						<button class="btn btn-primary" type="submit">Predict</button>
-					</div>
-				</div>
-			</form>
+		  <form id="predictionForm" method="get">
+			<select class="form-control" id="visitorType" name="visitorType">
+			  <option value="">Visitor Type:</option>
+			  <option value="0">New Visitor</option>
+			  <option value="1">Returning Visitor</option>
+			  <option value="2">Other</option>
+			</select>
+			<select class="form-control" id="month" name="month">
+			  <option value="">Month:</option>
+			  <option value="2">February</option>
+			  <option value="3">March</option>
+			  <option value="5">May</option>
+			  <option value="6">June</option>
+			  <option value="7">July</option>
+			  <option value="8">August</option>
+			  <option value="9">September</option>
+			  <option value="10">October</option>
+			  <option value="11">November</option>
+			  <option value="12">December</option>
+			</select>
+			<select class="form-control" name="weekend" id="weekend">
+			  <option value="">Weekend:</option>
+			  <option value="0">Yes</option>
+			  <option value="1">No</option>
+			</select>
+			<input class="form-control" type="number" id="productRelated" placeholder="Product Related:">
+			<input class="form-control" type="number" id="productRelatedDuration" placeholder="Product Related Duration:">
+			<input class="form-control" type="number" id="bounceRates" placeholder="Bounce Rates:">
+			<input class="form-control" type="number" id="exitRates" placeholder="Exit Rates:">
+			<input class="form-control" type="number" id="pageValues" placeholder="Page Values:">
+			<select class="form-control" name="specialDay" id="specialDay">
+			  <option value="">Special Day:</option>
+			  <option value="0">Yes</option>
+			  <option value="1">No</option>
+			</select>
+			<input class="form-control" type="number" id="operatingSystems" placeholder="Operating Systems:">
+			<input class="form-control" type="number" id="browser" placeholder="Browser:">
+			<input class="form-control" type="number" id="region" placeholder="Region:">
+			<input class="form-control" type="number" id="trafficType" placeholder="Traffic Type:">
+			<div class="d-flex align-items-center justify-content-center">
+			  <!-- Cambiar el tipo de botón -->
+			  <button class="btn btn-primary" type="button" id="predictButton">Predict</button>
+			</div>
+		  </form>
 		</div>
-		
-</div>
-</div>
-</div>
-
-   <script>
-	jQuery(document).ready(function($){
-	  var date_input=$('input[id="date"]');
-	  var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
-	  var options={
-		format: 'yyyy-mm-dd',
-		container: container,
-		todayHighlight: true,
-		autoclose: true,
-	  };
-	  date_input.datepicker(options);
+	  </div>
+	</div>
+  </div>
+  
+  <script>
+	document.getElementById('predictButton').addEventListener('click', function() {
+	  // Obtener los valores de los campos
+	  const fields = [
+		document.getElementById('visitorType').value.trim(),
+		document.getElementById('month').value.trim(),
+		document.getElementById('weekend').value.trim(),
+		document.getElementById('productRelated').value.trim(),
+		document.getElementById('productRelatedDuration').value.trim(),
+		document.getElementById('bounceRates').value.trim(),
+		document.getElementById('exitRates').value.trim(),
+		document.getElementById('pageValues').value.trim(),
+		document.getElementById('specialDay').value.trim(),
+		document.getElementById('operatingSystems').value.trim(),
+		document.getElementById('browser').value.trim(),
+		document.getElementById('region').value.trim(),
+		document.getElementById('trafficType').value.trim(),
+	  ];
+  
+	  // Validar que todos los campos estén llenos
+	  const emptyFields = fields.filter(value => value === '');
+	  if (emptyFields.length > 0) {
+		alert('Please, complete all the fields.');
+	  } else {
+		alert('Send Correctly!');
+		// Aquí podrías agregar lógica adicional para enviar los datos al servidor
+		// document.getElementById('predictionForm').submit();
+	  }
 	});
-	</script>
-	
-<div class="limiter">
-<div class="container-login100 p-t-0">
-<div class="wrap-login100 p-l-40 p-r-40 p-t-25 p-b-15">
-		
-			<table class="table table-image">
-				<tr>
-					<th scope="col" class="top-row">Results</th>
-				</tr>
-
-				{% for alert in uploadAlert %}
-
-				<tr>
-					<td class="w-25"><img style="max-width: 250px; max-height: 150x; border-radius: 2.5%;" 
-						class="img-fluid" src='https://djangoapp-bucket.s3.us-east-2.amazonaws.com/media/{{alert.image}}'/></td>
-					<td class="xd">{{alert.location}}</td>
-					<td class="xd">{{alert.alert_receiver}}</td>
-					<td class="xd">{{alert.date_created|date:"Y-m-d H:i:s"}}</td>
-					
-					{% with uuid=alert.image|split:"." %}
-
-					<td><a class="btn btn-sm btn-info" href="/alert/{{uuid.0}}">Ver</a></td>
-
-					{% endwith %}
-					
-				</tr>
-				{% endfor %}
-
-			</table>
-		
-</div>
-</div>
-</div>
-
+  </script>
+  
 {% endblock %}
