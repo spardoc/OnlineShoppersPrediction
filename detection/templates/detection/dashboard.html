@@ -1,64 +1,339 @@
+
 {% extends 'detection/main.html' %}
 
 {% block content %}
 
 {% load event_tags %}
 {% load static %}
+
+<div class="flex items-center gap-2">
+  <button
+    class="relative inline-flex items-center justify-center gap-2 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white hover:bg-[#F5F5F5] h-9 rounded-md px-3 group"
+  >
+    <svg
+      class="lucide lucide-arrow-left"
+      stroke-linejoin="round"
+      stroke-linecap="round"
+      stroke-width="2"
+      stroke="currentColor"
+      fill="none"
+      viewBox="0 0 24 24"
+      height="22"
+      width="22"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="m12 19-7-7 7-7"></path>
+      <path d="M19 12H5"></path>
+    </svg>
+    <span class="origin-left scale-0 transition-transform group-hover:scale-100"
+      >Back</span
+    >
+  </button>
+  <button
+    class="cursor-pointer bg-white relative inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-[#F5F5F5] hover:text-[#06B6D4] h-9 rounded-md px-3"
+  >
+    <svg
+      class="lucide lucide-rocket text-cyan-500 dark:text-cyan-400"
+      stroke-linejoin="round"
+      stroke-linecap="round"
+      stroke-width="2"
+      stroke="#06B6D4"
+      fill="none"
+      viewBox="0 0 24 24"
+      height="22"
+      width="22"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"
+      ></path>
+      <path
+        d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"
+      ></path>
+      <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path>
+      <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
+    </svg>
+    Dashboard
+  </button>
+  <button
+    class="cursor-pointer bg-white relative inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-[#F5F5F5] hover:text-[#60A5FA] h-9 rounded-md px-3"
+  >
+    <svg
+      class="lucide lucide-newspaper text-blue-400 dark:text-blue-600"
+      stroke-linejoin="round"
+      stroke-linecap="round"
+      stroke-width="2"
+      stroke="#60A5FA"
+      fill="none"
+      viewBox="0 0 24 24"
+      height="22"
+      width="22"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"
+      ></path>
+      <path d="M18 14h-8"></path>
+      <path d="M15 18h-5"></path>
+      <path d="M10 6h8v4h-8V6Z"></path>
+    </svg>
+    Articles
+  </button>
+  <button
+    class="cursor-pointer bg-white relative inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-[#F5F5F5] hover:text-[#FACC14] h-9 rounded-md px-3"
+  >
+    <svg
+      class="lucide lucide-sticky-note text-yellow-400 dark:text-yellow-600"
+      stroke-linejoin="round"
+      stroke-linecap="round"
+      stroke-width="2"
+      stroke="#FACC14"
+      fill="none"
+      viewBox="0 0 24 24"
+      height="22"
+      width="22"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M15.5 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V8.5L15.5 3Z"
+      ></path>
+      <path d="M15 3v6h6"></path>
+    </svg>
+    Notes
+  </button>
+  <button
+    class="cursor-pointer bg-white relative inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-[#F5F5F5] hover:text-[#FB923C] h-9 rounded-md px-3"
+  >
+    <svg
+      class="lucide lucide-star text-orange-400 dark:text-orange-600"
+      stroke-linejoin="round"
+      stroke-linecap="round"
+      stroke-width="2"
+      stroke="#FB923C"
+      fill="#FB923C"
+      viewBox="0 0 24 24"
+      height="22"
+      width="22"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <polygon
+        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+      ></polygon>
+    </svg>
+    Reviews
+  </button>
+</div>
+
+
+
+
+  
 <div class="limiter">
 	<div class="container-login100 p-b-0 p-t-0">
-	  <div class="wrap-login100 p-l-30 p-r-30 p-t-20 p-b-20">
-		<div class="Search">
-		  <form id="predictionForm" method="get">
-			<select class="form-control" id="visitorType" name="visitorType">
-			  <option value="">Visitor Type:</option>
-			  <option value="0">New Visitor</option>
-			  <option value="1">Returning Visitor</option>
-			  <option value="2">Other</option>
-			</select>
-			<select class="form-control" id="month" name="month">
-			  <option value="">Month:</option>
-			  <option value="2">February</option>
-			  <option value="3">March</option>
-			  <option value="5">May</option>
-			  <option value="6">June</option>
-			  <option value="7">July</option>
-			  <option value="8">August</option>
-			  <option value="9">September</option>
-			  <option value="10">October</option>
-			  <option value="11">November</option>
-			  <option value="12">December</option>
-			</select>
-			<select class="form-control" name="weekend" id="weekend">
-			  <option value="">Weekend:</option>
-			  <option value="0">Yes</option>
-			  <option value="1">No</option>
-			</select>
-			<input class="form-control" type="number" id="productRelated" placeholder="Product Related:">
-			<input class="form-control" type="number" id="productRelatedDuration" placeholder="Product Related Duration:">
-			<input class="form-control" type="number" id="bounceRates" placeholder="Bounce Rates:">
-			<input class="form-control" type="number" id="exitRates" placeholder="Exit Rates:">
-			<input class="form-control" type="number" id="pageValues" placeholder="Page Values:">
-			<select class="form-control" name="specialDay" id="specialDay">
-			  <option value="">Special Day:</option>
-			  <option value="0">Yes</option>
-			  <option value="1">No</option>
-			</select>
-			<input class="form-control" type="number" id="operatingSystems" placeholder="Operating Systems:">
-			<input class="form-control" type="number" id="browser" placeholder="Browser:">
-			<input class="form-control" type="number" id="region" placeholder="Region:">
-			<input class="form-control" type="number" id="trafficType" placeholder="Traffic Type:">
-			<div class="d-flex align-items-center justify-content-center">
-			  <!-- Cambiar el tipo de botón -->
-			  <button class="btn btn-primary" type="button" id="predictButton">Predict</button>
-			</div>
-		  </form>
+	  <div class="bg"></div>
+	  <div class="blob"></div>
+	  <div class="wrap-login100">
+		<div class="wrap-login100 p-l-30 p-r-30 p-t-20 p-b-20">
+		  <div class="Search">
+			<form id="predictionForm" method="get">
+			  <!-- Visitor Type -->
+			  <div class="coolinput">
+				<label for="visitorType" class="text">Visitor Type:</label>
+				<select class="input" id="visitorType" name="visitorType">
+				  <option value="">Visitor Type:</option>
+				  <option value="0">New Visitor</option>
+				  <option value="1">Returning Visitor</option>
+				  <option value="2">Other</option>
+				</select>
+			  </div>
+  
+			  <!-- Month -->
+			  <div class="coolinput">
+				<label for="month" class="text">Month:</label>
+				<select class="input" id="month" name="month">
+				  <option value="">Month:</option>
+				  <option value="2">February</option>
+				  <option value="3">March</option>
+				  <option value="5">May</option>
+				  <option value="6">June</option>
+				  <option value="7">July</option>
+				  <option value="8">August</option>
+				  <option value="9">September</option>
+				  <option value="10">October</option>
+				  <option value="11">November</option>
+				  <option value="12">December</option>
+				</select>
+			  </div>
+  
+			  <!-- Weekend -->
+			  <div class="coolinput">
+				<label for="weekend" class="text">Weekend:</label>
+				<select class="input" name="weekend" id="weekend">
+				  <option value="">Weekend:</option>
+				  <option value="0">Yes</option>
+				  <option value="1">No</option>
+				</select>
+			  </div>
+  
+			  <!-- Product Related -->
+			  <div class="coolinput">
+				<label for="productRelated" class="text">Product Related:</label>
+				<input class="input" type="number" id="productRelated" placeholder="Product Related:" name="productRelated">
+			  </div>
+  
+			  <!-- Product Related Duration -->
+			  <div class="coolinput">
+				<label for="productRelatedDuration" class="text">Product Related Duration:</label>
+				<input class="input" type="number" id="productRelatedDuration" placeholder="Product Related Duration:" name="productRelatedDuration">
+			  </div>
+  
+			  <!-- Bounce Rates -->
+			  <div class="coolinput">
+				<label for="bounceRates" class="text">Bounce Rates:</label>
+				<input class="input" type="number" id="bounceRates" placeholder="Bounce Rates:" name="bounceRates">
+			  </div>
+  
+			  <!-- Exit Rates -->
+			  <div class="coolinput">
+				<label for="exitRates" class="text">Exit Rates:</label>
+				<input class="input" type="number" id="exitRates" placeholder="Exit Rates:" name="exitRates">
+			  </div>
+  
+			  <!-- Page Values -->
+			  <div class="coolinput">
+				<label for="pageValues" class="text">Page Values:</label>
+				<input class="input" type="number" id="pageValues" placeholder="Page Values:" name="pageValues">
+			  </div>
+  
+			  <!-- Special Day -->
+			  <div class="coolinput">
+				<label for="specialDay" class="text">Special Day:</label>
+				<select class="input" name="specialDay" id="specialDay">
+				  <option value="">Special Day:</option>
+				  <option value="0">Yes</option>
+				  <option value="1">No</option>
+				</select>
+			  </div>
+  
+			  <!-- Operating Systems -->
+			  <div class="coolinput">
+				<label for="operatingSystems" class="text">Operating Systems:</label>
+				<input class="input" type="number" id="operatingSystems" placeholder="Operating Systems:" name="operatingSystems">
+			  </div>
+  
+			  <!-- Browser -->
+			  <div class="coolinput">
+				<label for="browser" class="text">Browser:</label>
+				<input class="input" type="number" id="browser" placeholder="Browser:" name="browser">
+			  </div>
+  
+			  <!-- Region -->
+			  <div class="coolinput">
+				<label for="region" class="text">Region:</label>
+				<input class="input" type="number" id="region" placeholder="Region:" name="region">
+			  </div>
+  
+			  <!-- Traffic Type -->
+			  <div class="coolinput">
+				<label for="trafficType" class="text">Traffic Type:</label>
+				<input class="input" type="number" id="trafficType" placeholder="Traffic Type:" name="trafficType">
+			  </div>
+  
+			  <div class="d-flex align-items-center justify-content-center">
+				<div class="container">
+				  <a href="#" class="button type--C" id="predictButton">
+					<div class="button__line"></div>
+					<div class="button__line"></div>
+					<span class="button__text">Predict</span>
+					<div class="button__drow1"></div>
+					<div class="button__drow2"></div>
+				  </a>
+				</div>
+			  </div>
+			</form>
+		  </div>
 		</div>
 	  </div>
 	</div>
   </div>
   
+  <style>
+	.coolinput {
+	  margin-bottom: 15px;
+	  display: flex;
+	  flex-direction: column;
+	}
+  
+	.coolinput label {
+	  font-size: 14px;
+	  margin-bottom: 5px;
+	  color: #333;
+	}
+  
+	.input {
+	  padding: 10px;
+	  font-size: 16px;
+	  border: 2px solid #ccc;
+	  border-radius: 8px;
+	  transition: border-color 0.3s ease;
+	}
+  
+	.input:focus {
+	  border-color: #4CAF50;
+	  outline: none;
+	}
+  </style>
+  
+  
+  <!-- Notification and Validation Message -->
+  <div class="notifications-container" id="notificationsContainer" style="display:none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; width: auto; max-width: 400px; padding: 10px; background-color: #f44336; color: white; text-align: center; font-size: 14px; border-radius: 8px; border: none;">
+	<div class="error-alert">
+	  <div class="flex">
+		<div class="flex-shrink-0">
+		  <svg aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="error-svg" style="width: 20px; height: 20px;">
+			<path clip-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" fill-rule="evenodd"></path>
+		  </svg>
+		</div>
+		<div class="error-prompt-container">
+		  <p class="error-prompt-heading" style="font-size: 14px;">Please complete all the fields.</p>
+		  <div class="error-prompt-wrap">
+			<ul class="error-prompt-list" role="list" style="list-style-type: none; padding-left: 0;">
+			  <li style="font-size: 12px;">All fields must be filled in before submitting.</li>
+			</ul>
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </div>
+  
+  <!-- Order Confirmation Message -->
+  <div class="order-confirmation" id="orderConfirmation" style="display:none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; width: auto; max-width: 400px; padding: 20px; background-color: #4caf50; color: white; text-align: center; font-size: 14px; border-radius: 8px;">
+	<div class="card">
+	  <button type="button" class="dismiss" onclick="dismissCard()">×</button>
+	  <div class="header">
+		<div class="image">
+		  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+			<path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#000000" d="M20 7L9.00004 18L3.99994 13"></path>
+		  </svg>
+		</div>
+		<div class="content">
+		  <span class="title">Form sent</span>
+		  <p class="message">Thank you for filling it out. You can now view the result or create a new one.</p>
+		</div>
+		<div class="actions">
+		  <button type="button" class="history">History</button>
+		  <button type="button" class="track">New Form</button>
+		</div>
+	  </div>
+	</div>
+  </div>
+
+  
+  
   <script>
-	document.getElementById('predictButton').addEventListener('click', function() {
+	document.getElementById('predictButton').addEventListener('click', function(event) {
+	  event.preventDefault();  // Prevenir la acción predeterminada del enlace
+  
 	  // Obtener los valores de los campos
 	  const fields = [
 		document.getElementById('visitorType').value.trim(),
@@ -79,13 +354,33 @@
 	  // Validar que todos los campos estén llenos
 	  const emptyFields = fields.filter(value => value === '');
 	  if (emptyFields.length > 0) {
-		alert('Please, complete all the fields.');
+		const notification = document.getElementById('notificationsContainer');
+		notification.style.display = 'block';  // Mostrar alerta
+  
+		// Desaparecer la alerta después de 4 segundos
+		setTimeout(function() {
+		  notification.style.display = 'none';
+		}, 4000);
 	  } else {
-		alert('Send Correctly!');
-		// Aquí podrías agregar lógica adicional para enviar los datos al servidor
-		// document.getElementById('predictionForm').submit();
+		const confirmationMessage = document.getElementById('orderConfirmation');
+		confirmationMessage.style.display = 'block';  // Mostrar mensaje de confirmación
+  
+		// Ocultar mensaje después de 4 segundos (opcional)
+		setTimeout(function() {
+		  confirmationMessage.style.display = 'none';
+		}, 6000);
 	  }
 	});
+  
+	// Función para cerrar la tarjeta de confirmación
+	function dismissCard() {
+	  document.getElementById('orderConfirmation').style.display = 'none';
+	}
   </script>
   
+  
+  
 {% endblock %}
+  
+			  
+			
