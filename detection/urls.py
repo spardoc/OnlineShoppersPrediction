@@ -4,6 +4,8 @@ from django.contrib.auth import views as auth_views
 
 from . import views
 
+
+
 urlpatterns = [
     path('login/', views.loginPage, name='login'),
     path('register/', views.registerPage, name='register'),
@@ -22,4 +24,5 @@ urlpatterns = [
         auth_views.PasswordResetCompleteView.as_view(template_name="detection/password_reset_done.html"), 
         name="password_reset_complete"),
     path('alert/<uuid:pk>/', views.alert, name='alert'),
+    path('predecir_compra/', views.predecir_compra, name='predecir_compra'),
 ]
