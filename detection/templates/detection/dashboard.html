@@ -135,7 +135,8 @@
 	  <div class="wrap-login100">
 		<div class="wrap-login100 p-l-30 p-r-30 p-t-20 p-b-20">
 		  <div class="Search">
-			<form id="predictionForm" method="get">
+			<form id="predictionForm" method="post">
+				{% csrf_token %}
 			  <!-- Visitor Type -->
 			  <div class="coolinput">
 				<label for="visitorType" class="text">Visitor Type:</label>
@@ -249,13 +250,116 @@
 					<div class="button__drow2"></div>
 				  </a>
 				</div>
-			  </div>
+			  </div>			  
 			</form>
 		  </div>
 		</div>
 	  </div>
 	</div>
   </div>
+
+  <script>
+	document.addEventListener("DOMContentLoaded", () => {
+  const predictButton = document.getElementById("predictButton");
+
+  predictButton.addEventListener("click", async (event) => {
+    event.preventDefault(); 
+
+    const data = {
+      // Visitor Type
+      VisitorType_New_Visitor: document.querySelector('select[name="visitorType"]').value === "0" ? 1 : 0,
+      VisitorType_Other: document.querySelector('select[name="visitorType"]').value === "2" ? 1 : 0,
+      VisitorType_Returning_Visitor: document.querySelector('select[name="visitorType"]').value === "1" ? 1 : 0,
+
+      // Month (convertido a valores binarios)
+      Month_Aug: document.querySelector('select[name="month"]').value === "8" ? 1 : 0,
+      Month_Dec: document.querySelector('select[name="month"]').value === "12" ? 1 : 0,
+      Month_Feb: document.querySelector('select[name="month"]').value === "2" ? 1 : 0,
+      Month_Jul: document.querySelector('select[name="month"]').value === "7" ? 1 : 0,
+      Month_June: document.querySelector('select[name="month"]').value === "6" ? 1 : 0,
+      Month_Mar: document.querySelector('select[name="month"]').value === "3" ? 1 : 0,
+      Month_May: document.querySelector('select[name="month"]').value === "5" ? 1 : 0,
+      Month_Nov: document.querySelector('select[name="month"]').value === "11" ? 1 : 0,
+      Month_Oct: document.querySelector('select[name="month"]').value === "10" ? 1 : 0,
+      Month_Sep: document.querySelector('select[name="month"]').value === "9" ? 1 : 0,
+
+      // Weekend
+      Weekend_False: document.querySelector('select[name="weekend"]').value === "1" ? 1 : 0,
+      Weekend_True: document.querySelector('select[name="weekend"]').value === "0" ? 1 : 0,
+
+      // Product Related (valor numérico)
+      ProductRelated: parseFloat(document.getElementById("productRelated").value) || 0,
+
+      // Product Related Duration
+      ProductRelated_Duration: parseFloat(document.getElementById("productRelatedDuration").value) || 0,
+
+      // Bounce Rates
+      BounceRates: parseFloat(document.getElementById("bounceRates").value) || 0,
+
+      // Exit Rates
+      ExitRates: parseFloat(document.getElementById("exitRates").value) || 0,
+
+      // Page Values
+      PageValues: parseFloat(document.getElementById("pageValues").value) || 0,
+
+      // Special Day
+      SpecialDay: document.querySelector('select[name="specialDay"]').value === "1" ? 1 : 0,
+
+      // Operating Systems
+      OperatingSystems: parseInt(document.getElementById("operatingSystems").value) || 0,
+
+      // Browser
+      Browser: parseInt(document.getElementById("browser").value) || 0,
+
+      // Region
+      Region: parseInt(document.getElementById("region").value) || 0,
+
+      // Traffic Type
+      TrafficType: parseInt(document.getElementById("trafficType").value) || 0
+    };
+
+    try {
+      const csrfToken = document.cookie.match(/csrftoken=([^;]+)/)[1];
+
+		const response = await fetch("/api/predecir_compra/", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			"X-CSRFToken": csrfToken,
+		},
+		body: JSON.stringify(data),
+		});
+
+      if (!response.ok) {
+        throw new Error("Error al enviar los datos");
+      }
+
+      const result = await response.json();
+      console.log(result);
+		// Obtener el mensaje de predicción
+		const prediction = result.prediccion;
+
+		// Mostrar el mensaje de confirmación con la predicción
+		const confirmationMessage = document.getElementById('orderConfirmation');
+		const messageContent = confirmationMessage.querySelector('.message');
+		messageContent.textContent = `Predicción: ${prediction}`;
+
+		// Mostrar el mensaje de confirmación
+		confirmationMessage.style.display = 'block';
+
+		// Ocultar mensaje después de 4 segundos (opcional)
+		setTimeout(function() {
+		confirmationMessage.style.display = 'none';
+		}, 6000);
+		} catch (error) {
+		console.error(error);
+		alert("Hubo un error al enviar los datos");
+		}
+		});
+		});
+
+  </script>
+  
   
   <style>
 	.coolinput {
@@ -376,11 +480,12 @@
 	function dismissCard() {
 	  document.getElementById('orderConfirmation').style.display = 'none';
 	}
-  </script>
-  
-  
-  
+
+</script>
+
+
+
 {% endblock %}
-  
-			  
+
+			
 			

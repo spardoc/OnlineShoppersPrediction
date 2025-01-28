@@ -21,5 +21,5 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('detection.urls')),
-    re_path(r'^api/', include(('alertupload_rest.urls', 'alertupload_rest'), namespace='api')),  # Cambiado url() por re_path()
+    re_path(r'^api/', include(('prediction_rest.urls', 'prediction_rest'), namespace='api')),  # Cambiado url() por re_path()
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

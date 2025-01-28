@@ -63,62 +63,25 @@ def alert(request, pk):
     }
     return render(request, 'detection/alert.html', context)
 
-# views.py
-from django.http import JsonResponse
-from django.shortcuts import render
-import pandas as pd
-import joblib
+def process_form(request):
+    if request.method == "POST":
+        # Captura los valores del formulario
+        visitor_type = request.POST.get('visitorType', '')
+        month = request.POST.get('month', '')
+        weekend = request.POST.get('weekend', '')
 
-# Cargar el modelo entrenado
-modelo_rf = joblib.load('random_forest_model.pkl')
-
-def predecir_compra(request):
-    # Recibir los datos como parámetros GET o POST
-    try:
-        nuevo_sample = {
-            'VisitorType_New_Visitor': int(request.GET.get('VisitorType_New_Visitor')),
-            'VisitorType_Other': int(request.GET.get('VisitorType_Other')),
-            'VisitorType_Returning_Visitor': int(request.GET.get('VisitorType_Returning_Visitor')),
-            'Month_Aug': int(request.GET.get('Month_Aug')),
-            'Month_Dec': int(request.GET.get('Month_Dec')),
-            'Month_Feb': int(request.GET.get('Month_Feb')),
-            'Month_Jul': int(request.GET.get('Month_Jul')),
-            'Month_June': int(request.GET.get('Month_June')),
-            'Month_Mar': int(request.GET.get('Month_Mar')),
-            'Month_May': int(request.GET.get('Month_May')),
-            'Month_Nov': int(request.GET.get('Month_Nov')),
-            'Month_Oct': int(request.GET.get('Month_Oct')),
-            'Month_Sep': int(request.GET.get('Month_Sep')),
-            'Weekend_False': int(request.GET.get('Weekend_False')),
-            'Weekend_True': int(request.GET.get('Weekend_True')),
-            'ProductRelated': float(request.GET.get('ProductRelated')),
-            'ProductRelated_Duration': float(request.GET.get('ProductRelated_Duration')),
-            'BounceRates': float(request.GET.get('BounceRates')),
-            'ExitRates': float(request.GET.get('ExitRates')),
-            'PageValues': float(request.GET.get('PageValues')),
-            'SpecialDay': float(request.GET.get('SpecialDay')),
-            'OperatingSystems': int(request.GET.get('OperatingSystems')),
-            'Browser': int(request.GET.get('Browser')),
-            'Region': int(request.GET.get('Region')),
-            'TrafficType': int(request.GET.get('TrafficType')),
+        # Lógica para procesar los valores
+        data = {
+            'visitor_type': visitor_type,
+            'month': month,
+            'weekend': weekend,
         }
 
-        # Convertir el sample a DataFrame
-        columnas = ['VisitorType_New_Visitor', 'VisitorType_Other', 'VisitorType_Returning_Visitor',
-                    'Month_Aug', 'Month_Dec', 'Month_Feb', 'Month_Jul', 'Month_June', 'Month_Mar',
-                    'Month_May', 'Month_Nov', 'Month_Oct', 'Month_Sep', 'Weekend_False', 'Weekend_True',
-                    'ProductRelated', 'ProductRelated_Duration', 'BounceRates', 'ExitRates',
-                    'PageValues', 'SpecialDay', 'OperatingSystems', 'Browser', 'Region', 'TrafficType']
-        df_sample = pd.DataFrame([nuevo_sample], columns=columnas)
+        # Aquí puedes realizar cualquier acción, como enviar estos datos a un modelo de predicción
+        prediction = my_prediction_model(data)  # Ejemplo de llamada a una función
 
-        # Realizar la predicción
-        prediccion = modelo_rf.predict(df_sample)
+        # Devolver los resultados al template
+        return render(request, 'resultado.html', {'prediction': prediction})
 
-        # Interpretar la predicción
-        resultado = "Compra" if prediccion[0] == 1 else "No Compra"
+    return render(request, 'formulario.html')
 
-        # Retornar la respuesta
-        return JsonResponse({'prediccion': resultado})
-    
-    except Exception as e:
-        return JsonResponse({'error': str(e)}, status=400)
