@@ -1,4 +1,3 @@
-
 {% extends 'detection/main.html' %}
 
 {% block content %}
@@ -6,376 +5,366 @@
 {% load event_tags %}
 {% load static %}
 
-
-
-
-  
 <div class="limiter">
 	<div class="container-login100 p-b-0 p-t-0">
-	  <div class="bg"></div>
-	  <div class="blob"></div>
-	  <div class="wrap-login100">
-		<div class="wrap-login100 p-l-30 p-r-30 p-t-20 p-b-20">
-		  <div class="Search">
-			
-			<form id="predictionForm" method="post">
-				{% csrf_token %}
-			  <!-- Visitor Type -->
-			  <div class="coolinput">
-				<label for="visitorType" class="text">Visitor Type:</label>
-				<select class="input" id="visitorType" name="visitorType">
-				  <option value="">Visitor Type:</option>
-				  <option value="0">New Visitor</option>
-				  <option value="1">Returning Visitor</option>
-				  <option value="2">Other</option>
-				</select>
-			  </div>
-  
-			  <!-- Month -->
-			  <div class="coolinput">
-				<label for="month" class="text">Month:</label>
-				<select class="input" id="month" name="month">
-				  <option value="">Month:</option>
-				  <option value="2">February</option>
-				  <option value="3">March</option>
-				  <option value="5">May</option>
-				  <option value="6">June</option>
-				  <option value="7">July</option>
-				  <option value="8">August</option>
-				  <option value="9">September</option>
-				  <option value="10">October</option>
-				  <option value="11">November</option>
-				  <option value="12">December</option>
-				</select>
-			  </div>
-  
-			  <!-- Weekend -->
-			  <div class="coolinput">
-				<label for="weekend" class="text">Weekend:</label>
-				<select class="input" name="weekend" id="weekend">
-				  <option value="">Weekend:</option>
-				  <option value="0">Yes</option>
-				  <option value="1">No</option>
-				</select>
-			  </div>
-  
-			  <!-- Product Related -->
-			  <div class="coolinput">
-				<label for="productRelated" class="text">Product Related:</label>
-				<input class="input" type="number" id="productRelated" placeholder="Product Related:" name="productRelated">
-			  </div>
-  
-			  <!-- Product Related Duration -->
-			  <div class="coolinput">
-				<label for="productRelatedDuration" class="text">Product Related Duration:</label>
-				<input class="input" type="number" id="productRelatedDuration" placeholder="Product Related Duration:" name="productRelatedDuration">
-			  </div>
-  
-			  <!-- Bounce Rates -->
-			  <div class="coolinput">
-				<label for="bounceRates" class="text">Bounce Rates:</label>
-				<input class="input" type="number" id="bounceRates" placeholder="Bounce Rates:" name="bounceRates">
-			  </div>
-  
-			  <!-- Exit Rates -->
-			  <div class="coolinput">
-				<label for="exitRates" class="text">Exit Rates:</label>
-				<input class="input" type="number" id="exitRates" placeholder="Exit Rates:" name="exitRates">
-			  </div>
-  
-			  <!-- Page Values -->
-			  <div class="coolinput">
-				<label for="pageValues" class="text">Page Values:</label>
-				<input class="input" type="number" id="pageValues" placeholder="Page Values:" name="pageValues">
-			  </div>
-  
-			  <!-- Special Day -->
-			  <div class="coolinput">
-				<label for="specialDay" class="text">Special Day:</label>
-				<select class="input" name="specialDay" id="specialDay">
-				  <option value="">Special Day:</option>
-				  <option value="0">Yes</option>
-				  <option value="1">No</option>
-				</select>
-			  </div>
-  
-			  <!-- Operating Systems -->
-			  <div class="coolinput">
-				<label for="operatingSystems" class="text">Operating Systems:</label>
-				<input class="input" type="number" id="operatingSystems" placeholder="Operating Systems:" name="operatingSystems">
-			  </div>
-  
-			  <!-- Browser -->
-			  <div class="coolinput">
-				<label for="browser" class="text">Browser:</label>
-				<input class="input" type="number" id="browser" placeholder="Browser:" name="browser">
-			  </div>
-  
-			  <!-- Region -->
-			  <div class="coolinput">
-				<label for="region" class="text">Region:</label>
-				<input class="input" type="number" id="region" placeholder="Region:" name="region">
-			  </div>
-  
-			  <!-- Traffic Type -->
-			  <div class="coolinput">
-				<label for="trafficType" class="text">Traffic Type:</label>
-				<input class="input" type="number" id="trafficType" placeholder="Traffic Type:" name="trafficType">
-			  </div>
-  
-			  <div class="d-flex align-items-center justify-content-center">
-				<div class="container">
-				  <a href="#" class="button type--C" id="predictButton">
-					<div class="button__line"></div>
-					<div class="button__line"></div>
-					<span class="button__text">Predict</span>
-					<div class="button__drow1"></div>
-					<div class="button__drow2"></div>
-				  </a>
+		<div class="bg"></div>
+		<div class="blob"></div>
+		<div class="wrap-login100">
+			<div class="wrap-login100 p-l-30 p-r-30 p-t-20 p-b-20">
+				<div class="Search">
+
+					<form id="predictionForm" method="post">
+						{% csrf_token %}
+						
+						<!-- Visitor Type -->
+						<div class="coolinput">
+							<label for="visitorType" class="text">
+								Visitor Type:
+								<i class="fas fa-info-circle text-info" data-toggle="tooltip" data-placement="right" title="Tipo de visitante: Indica si el usuario es un visitante nuevo, recurrente o de otro tipo."></i>
+							</label>
+							<select class="input" id="visitorType" name="visitorType">
+								<option value="">Visitor Type:</option>
+								<option value="0">New Visitor</option>
+								<option value="1">Returning Visitor</option>
+								<option value="2">Other</option>
+							</select>
+						</div>
+					
+						<!-- Month -->
+						<div class="coolinput">
+							<label for="month" class="text">
+								Month:
+								<i class="fas fa-info-circle text-info" data-toggle="tooltip" data-placement="right" title="Mes de la visita: Representa el mes en que el usuario accedió al sitio web."></i>
+							</label>
+							<select class="input" id="month" name="month">
+								<option value="">Month:</option>
+								<option value="2">February</option>
+								<option value="3">March</option>
+								<option value="5">May</option>
+								<option value="6">June</option>
+								<option value="7">July</option>
+								<option value="8">August</option>
+								<option value="9">September</option>
+								<option value="10">October</option>
+								<option value="11">November</option>
+								<option value="12">December</option>
+							</select>
+						</div>
+					
+						<!-- Weekend -->
+						<div class="coolinput">
+							<label for="weekend" class="text">
+								Weekend:
+								<i class="fas fa-info-circle text-info" data-toggle="tooltip" data-placement="right" title="Fin de semana: Indica si la visita ocurrió un fin de semana (Sí o No)."></i>
+							</label>
+							<select class="input" name="weekend" id="weekend">
+								<option value="">Weekend:</option>
+								<option value="0">Yes</option>
+								<option value="1">No</option>
+							</select>
+						</div>
+					
+						<!-- Product Related -->
+						<div class="coolinput">
+							<label for="productRelated" class="text">
+								Product Related:
+								<i class="fas fa-info-circle text-info" data-toggle="tooltip" data-placement="right" title="Páginas de productos visitadas: Número de páginas de productos que el usuario ha visitado."></i>
+							</label>
+							<input class="input" type="number" id="productRelated" placeholder="Product Related:" name="productRelated">
+						</div>
+					
+						<!-- Product Related Duration -->
+						<div class="coolinput">
+							<label for="productRelatedDuration" class="text">
+								Product Related Duration:
+								<i class="fas fa-info-circle text-info" data-toggle="tooltip" data-placement="right" title="Duración en páginas de productos: Tiempo total (en segundos) que el usuario ha pasado en páginas de productos."></i>
+							</label>
+							<input class="input" type="number" id="productRelatedDuration" placeholder="Product Related Duration:" name="productRelatedDuration">
+						</div>
+					
+						<!-- Bounce Rates -->
+						<div class="coolinput">
+							<label for="bounceRates" class="text">
+								Bounce Rates:
+								<i class="fas fa-info-circle text-info" data-toggle="tooltip" data-placement="right" title="Tasa de rebote: Porcentaje de sesiones en las que el usuario abandonó el sitio tras visitar una sola página."></i>
+							</label>
+							<input class="input" type="number" id="bounceRates" placeholder="Bounce Rates:" name="bounceRates">
+						</div>
+					
+						<!-- Exit Rates -->
+						<div class="coolinput">
+							<label for="exitRates" class="text">
+								Exit Rates:
+								<i class="fas fa-info-circle text-info" data-toggle="tooltip" data-placement="right" title="Tasa de salida: Porcentaje de veces que una página fue la última visitada antes de que el usuario abandonara el sitio."></i>
+							</label>
+							<input class="input" type="number" id="exitRates" placeholder="Exit Rates:" name="exitRates">
+						</div>
+					
+						<!-- Page Values -->
+						<div class="coolinput">
+							<label for="pageValues" class="text">
+								Page Values:
+								<i class="fas fa-info-circle text-info" data-toggle="tooltip" data-placement="right" title="Valor de la página: Promedio de valor (conversiones) generado por una página en relación con la compra."></i>
+							</label>
+							<input class="input" type="number" id="pageValues" placeholder="Page Values:" name="pageValues">
+						</div>
+					
+						<!-- Special Day -->
+						<div class="coolinput">
+							<label for="specialDay" class="text">
+								Special Day:
+								<i class="fas fa-info-circle text-info" data-toggle="tooltip" data-placement="right" title="Día especial: Indica la proximidad de la visita a un evento especial (como el Black Friday)."></i>
+							</label>
+							<select class="input" name="specialDay" id="specialDay">
+								<option value="">Special Day:</option>
+								<option value="0">Yes</option>
+								<option value="1">No</option>
+							</select>
+						</div>
+					
+						<!-- Operating Systems -->
+						<div class="coolinput">
+							<label for="operatingSystems" class="text">
+								Operating Systems:
+								<i class="fas fa-info-circle text-info" data-toggle="tooltip" data-placement="right" title="Sistema operativo: Representa el sistema operativo del usuario (por ejemplo, Windows, macOS, etc.)."></i>
+							</label>
+							<input class="input" type="number" id="operatingSystems" placeholder="Operating Systems:" name="operatingSystems">
+						</div>
+					
+						<!-- Browser -->
+						<div class="coolinput">
+							<label for="browser" class="text">
+								Browser:
+								<i class="fas fa-info-circle text-info" data-toggle="tooltip" data-placement="right" title="Navegador: Identifica el navegador que el usuario utilizó para acceder al sitio web."></i>
+							</label>
+							<input class="input" type="number" id="browser" placeholder="Browser:" name="browser">
+						</div>
+					
+						<!-- Region -->
+						<div class="coolinput">
+							<label for="region" class="text">
+								Region:
+								<i class="fas fa-info-circle text-info" data-toggle="tooltip" data-placement="right" title="Región: Representa la ubicación geográfica del usuario dentro del país."></i>
+							</label>
+							<input class="input" type="number" id="region" placeholder="Region:" name="region">
+						</div>
+					
+						<!-- Traffic Type -->
+						<div class="coolinput">
+							<label for="trafficType" class="text">
+								Traffic Type:
+								<i class="fas fa-info-circle text-info" data-toggle="tooltip" data-placement="right" title="Tipo de tráfico: Código que clasifica la fuente de tráfico del usuario (por ejemplo, orgánico, pagado, directo)."></i>
+							</label>
+							<input class="input" type="number" id="trafficType" placeholder="Traffic Type:" name="trafficType">
+						</div>
+					
+						<div class="d-flex align-items-center justify-content-center">
+							<div class="container">
+								<a href="#" class="button type--C" id="predictButton">
+									<div class="button__line"></div>
+									<div class="button__line"></div>
+									<span class="button__text">Predecir</span>
+									<div class="button__drow1"></div>
+									<div class="button__drow2"></div>
+								</a>
+							</div>
+						</div>
+					</form>
 				</div>
-			  </div>			  
-			</form>
-		  </div>
+			</div>
 		</div>
-	  </div>
 	</div>
-  </div>
+</div>
 
-  <script>
+<script>
 	document.addEventListener("DOMContentLoaded", () => {
-  const predictButton = document.getElementById("predictButton");
+		const predictButton = document.getElementById("predictButton");
+		const loadingSpinner = document.getElementById("loadingSpinner");
 
-  predictButton.addEventListener("click", async (event) => {
-    event.preventDefault(); 
+		predictButton.addEventListener("click", async (event) => {
+			event.preventDefault();
 
-    const data = {
-      // Visitor Type
-      VisitorType_New_Visitor: document.querySelector('select[name="visitorType"]').value === "0" ? 1 : 0,
-      VisitorType_Other: document.querySelector('select[name="visitorType"]').value === "2" ? 1 : 0,
-      VisitorType_Returning_Visitor: document.querySelector('select[name="visitorType"]').value === "1" ? 1 : 0,
+			// VALIDACIÓN: Verificar que todos los campos requeridos estén completos
+			const requiredFields = [
+				{ id: 'visitorType', name: 'Visitor Type' },
+				{ id: 'month', name: 'Month' },
+				{ id: 'weekend', name: 'Weekend' },
+				{ id: 'productRelated', name: 'Product Related' },
+				{ id: 'productRelatedDuration', name: 'Product Related Duration' },
+				{ id: 'bounceRates', name: 'Bounce Rates' },
+				{ id: 'exitRates', name: 'Exit Rates' },
+				{ id: 'pageValues', name: 'Page Values' },
+				{ id: 'specialDay', name: 'Special Day' },
+				{ id: 'operatingSystems', name: 'Operating Systems' },
+				{ id: 'browser', name: 'Browser' },
+				{ id: 'region', name: 'Region' },
+				{ id: 'trafficType', name: 'Traffic Type' },
+			];
 
-      // Month (convertido a valores binarios)
-      Month_Aug: document.querySelector('select[name="month"]').value === "8" ? 1 : 0,
-      Month_Dec: document.querySelector('select[name="month"]').value === "12" ? 1 : 0,
-      Month_Feb: document.querySelector('select[name="month"]').value === "2" ? 1 : 0,
-      Month_Jul: document.querySelector('select[name="month"]').value === "7" ? 1 : 0,
-      Month_June: document.querySelector('select[name="month"]').value === "6" ? 1 : 0,
-      Month_Mar: document.querySelector('select[name="month"]').value === "3" ? 1 : 0,
-      Month_May: document.querySelector('select[name="month"]').value === "5" ? 1 : 0,
-      Month_Nov: document.querySelector('select[name="month"]').value === "11" ? 1 : 0,
-      Month_Oct: document.querySelector('select[name="month"]').value === "10" ? 1 : 0,
-      Month_Sep: document.querySelector('select[name="month"]').value === "9" ? 1 : 0,
+			let missingFields = [];
+			requiredFields.forEach(field => {
+				// Para selects y inputs
+				const element = document.getElementById(field.id);
+				if (!element || element.value.trim() === "") {
+					missingFields.push(field.name);
+				}
+			});
 
-      // Weekend
-      Weekend_False: document.querySelector('select[name="weekend"]').value === "1" ? 1 : 0,
-      Weekend_True: document.querySelector('select[name="weekend"]').value === "0" ? 1 : 0,
+			if (missingFields.length > 0) {
+				alert("Por favor, complete todos los campos requeridos: " + missingFields.join(", "));
+				return;  // No se llama a la API
+			}
 
-      // Product Related (valor numérico)
-      ProductRelated: parseFloat(document.getElementById("productRelated").value) || 0,
+			// Recoger los datos del formulario
+			const data = {
+				// Visitor Type
+				VisitorType_New_Visitor: document.querySelector('select[name="visitorType"]').value === "0" ? 1 : 0,
+				VisitorType_Other: document.querySelector('select[name="visitorType"]').value === "2" ? 1 : 0,
+				VisitorType_Returning_Visitor: document.querySelector('select[name="visitorType"]').value === "1" ? 1 : 0,
 
-      // Product Related Duration
-      ProductRelated_Duration: parseFloat(document.getElementById("productRelatedDuration").value) || 0,
+				// Month (convertido a valores binarios)
+				Month_Aug: document.querySelector('select[name="month"]').value === "8" ? 1 : 0,
+				Month_Dec: document.querySelector('select[name="month"]').value === "12" ? 1 : 0,
+				Month_Feb: document.querySelector('select[name="month"]').value === "2" ? 1 : 0,
+				Month_Jul: document.querySelector('select[name="month"]').value === "7" ? 1 : 0,
+				Month_June: document.querySelector('select[name="month"]').value === "6" ? 1 : 0,
+				Month_Mar: document.querySelector('select[name="month"]').value === "3" ? 1 : 0,
+				Month_May: document.querySelector('select[name="month"]').value === "5" ? 1 : 0,
+				Month_Nov: document.querySelector('select[name="month"]').value === "11" ? 1 : 0,
+				Month_Oct: document.querySelector('select[name="month"]').value === "10" ? 1 : 0,
+				Month_Sep: document.querySelector('select[name="month"]').value === "9" ? 1 : 0,
 
-      // Bounce Rates
-      BounceRates: parseFloat(document.getElementById("bounceRates").value) || 0,
+				// Weekend
+				Weekend_False: document.querySelector('select[name="weekend"]').value === "1" ? 1 : 0,
+				Weekend_True: document.querySelector('select[name="weekend"]').value === "0" ? 1 : 0,
 
-      // Exit Rates
-      ExitRates: parseFloat(document.getElementById("exitRates").value) || 0,
+				// Product Related (valor numérico)
+				ProductRelated: parseFloat(document.getElementById("productRelated").value) || 0,
 
-      // Page Values
-      PageValues: parseFloat(document.getElementById("pageValues").value) || 0,
+				// Product Related Duration
+				ProductRelated_Duration: parseFloat(document.getElementById("productRelatedDuration").value) || 0,
 
-      // Special Day
-      SpecialDay: document.querySelector('select[name="specialDay"]').value === "1" ? 1 : 0,
+				// Bounce Rates
+				BounceRates: parseFloat(document.getElementById("bounceRates").value) || 0,
 
-      // Operating Systems
-      OperatingSystems: parseInt(document.getElementById("operatingSystems").value) || 0,
+				// Exit Rates
+				ExitRates: parseFloat(document.getElementById("exitRates").value) || 0,
 
-      // Browser
-      Browser: parseInt(document.getElementById("browser").value) || 0,
+				// Page Values
+				PageValues: parseFloat(document.getElementById("pageValues").value) || 0,
 
-      // Region
-      Region: parseInt(document.getElementById("region").value) || 0,
+				// Special Day
+				SpecialDay: document.querySelector('select[name="specialDay"]').value === "1" ? 1 : 0,
 
-      // Traffic Type
-      TrafficType: parseInt(document.getElementById("trafficType").value) || 0
-    };
+				// Operating Systems
+				OperatingSystems: parseInt(document.getElementById("operatingSystems").value) || 0,
 
-    try {
-      const csrfToken = document.cookie.match(/csrftoken=([^;]+)/)[1];
+				// Browser
+				Browser: parseInt(document.getElementById("browser").value) || 0,
 
-		const response = await fetch("/api/predecir_compra/", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-			"X-CSRFToken": csrfToken,
-		},
-		body: JSON.stringify(data),
+				// Region
+				Region: parseInt(document.getElementById("region").value) || 0,
+
+				// Traffic Type
+				TrafficType: parseInt(document.getElementById("trafficType").value) || 0
+			};
+
+			// Mostrar el spinner
+			loadingSpinner.style.display = 'block';
+
+			try {
+				const csrfToken = document.cookie.match(/csrftoken=([^;]+)/)[1];
+
+				const response = await fetch("/api/predecir_compra/", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						"X-CSRFToken": csrfToken,
+					},
+					body: JSON.stringify(data),
+				});
+
+				if (!response.ok) {
+					throw new Error("Error al enviar los datos");
+				}
+
+				// Se espera 5 segundos mostrando el spinner y luego se redirige a la página de resultados
+				setTimeout(() => {
+					window.location.href = "/results/";
+				}, 5000);
+
+			} catch (error) {
+				console.error(error);
+				alert("Hubo un error al enviar los datos");
+				loadingSpinner.style.display = 'none';
+			}
 		});
-
-      if (!response.ok) {
-        throw new Error("Error al enviar los datos");
-      }
-
-		const result = await response.json();
-		console.log(result);
-
-		// Obtener los valores devueltos por la API
-		const prediction = result.prediction;
-		const explanation = result.explanation;
-		const audioBase64 = result.audio;
-
-		// Mostrar el mensaje de confirmación con la predicción
-		const confirmationMessage = document.getElementById('orderConfirmation');
-		const messageContent = confirmationMessage.querySelector('.message');
-		messageContent.innerHTML = `
-        <p><strong>Predicción:</strong> ${prediction}</p>
-        <p><strong>Explicación:</strong> ${explanation}</p>
-        <audio controls>
-			<source src="data:audio/wav;base64,${audioBase64}" type="audio/wav">
-			Tu navegador no soporta la reproducción de audio.
-        </audio>
-		`;
-
-		// Mostrar el mensaje de confirmación
-		confirmationMessage.style.display = 'block';
-
-		// Ocultar mensaje después de 4 segundos (opcional)
-		setTimeout(function() {
-		confirmationMessage.style.display = 'none';
-		}, 60000);
-		} catch (error) {
-		console.error(error);
-		alert("Hubo un error al enviar los datos");
-		}
-		});
-		});
-
-  </script>
-  
-  
-  <style>
-	.coolinput {
-	  margin-bottom: 15px;
-	  display: flex;
-	  flex-direction: column;
-	}
-  
-	.coolinput label {
-	  font-size: 14px;
-	  margin-bottom: 5px;
-	  color: #333;
-	}
-  
-	.input {
-	  padding: 10px;
-	  font-size: 16px;
-	  border: 2px solid #ccc;
-	  border-radius: 8px;
-	  transition: border-color 0.3s ease;
-	}
-  
-	.input:focus {
-	  border-color: #4CAF50;
-	  outline: none;
-	}
-  </style>
-  
-  
-  <!-- Notification and Validation Message -->
-  <div class="notifications-container" id="notificationsContainer" style="display:none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; width: auto; max-width: 400px; padding: 10px; background-color: #f44336; color: white; text-align: center; font-size: 14px; border-radius: 8px; border: none;">
-	<div class="error-alert">
-	  <div class="flex">
-		<div class="flex-shrink-0">
-		  <svg aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="error-svg" style="width: 20px; height: 20px;">
-			<path clip-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" fill-rule="evenodd"></path>
-		  </svg>
-		</div>
-		<div class="error-prompt-container">
-		  <p class="error-prompt-heading" style="font-size: 14px;">Please complete all the fields.</p>
-		  <div class="error-prompt-wrap">
-			<ul class="error-prompt-list" role="list" style="list-style-type: none; padding-left: 0;">
-			  <li style="font-size: 12px;">All fields must be filled in before submitting.</li>
-			</ul>
-		  </div>
-		</div>
-	  </div>
-	</div>
-  </div>
-  
-  <!-- Order Confirmation Message -->
-  <div class="order-confirmation" id="orderConfirmation" style="display:none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; width: auto; max-width: 400px; padding: 20px; background-color: #4caf50; color: white; text-align: center; font-size: 14px; border-radius: 8px;">
-	<div class="card">
-	  <button type="button" class="dismiss" onclick="dismissCard()">×</button>
-	  <div class="header">
-		<div class="image">
-		  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-			<path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#000000" d="M20 7L9.00004 18L3.99994 13"></path>
-		  </svg>
-		</div>
-		<div class="content">
-		  <span class="title">Form sent</span>
-		  <p class="message">Thank you for filling it out. You can now view the result or create a new one.</p>
-		</div>
-		<div class="actions">
-		  <button type="button" class="history">History</button>
-		  <button type="button" class="track">New Form</button>
-		</div>
-	  </div>
-	</div>
-  </div>
-
-  
-  
-  <script>
-	document.getElementById('predictButton').addEventListener('click', function(event) {
-	  event.preventDefault();  // Prevenir la acción predeterminada del enlace
-  
-	  // Obtener los valores de los campos
-	  const fields = [
-		document.getElementById('visitorType').value.trim(),
-		document.getElementById('month').value.trim(),
-		document.getElementById('weekend').value.trim(),
-		document.getElementById('productRelated').value.trim(),
-		document.getElementById('productRelatedDuration').value.trim(),
-		document.getElementById('bounceRates').value.trim(),
-		document.getElementById('exitRates').value.trim(),
-		document.getElementById('pageValues').value.trim(),
-		document.getElementById('specialDay').value.trim(),
-		document.getElementById('operatingSystems').value.trim(),
-		document.getElementById('browser').value.trim(),
-		document.getElementById('region').value.trim(),
-		document.getElementById('trafficType').value.trim(),
-	  ];
-  
-	  // Validar que todos los campos estén llenos
-	  const emptyFields = fields.filter(value => value === '');
-	  if (emptyFields.length > 0) {
-		const notification = document.getElementById('notificationsContainer');
-		notification.style.display = 'block';  // Mostrar alerta
-  
-		// Desaparecer la alerta después de 4 segundos
-		setTimeout(function() {
-		  notification.style.display = 'none';
-		}, 4000);
-	  } else {
-		const confirmationMessage = document.getElementById('orderConfirmation');
-		confirmationMessage.style.display = 'block';  // Mostrar mensaje de confirmación
-  
-		// Ocultar mensaje después de 4 segundos (opcional)
-		setTimeout(function() {
-		  confirmationMessage.style.display = 'none';
-		}, 6000);
-	  }
 	});
-  
-	// Función para cerrar la tarjeta de confirmación
-	function dismissCard() {
-	  document.getElementById('orderConfirmation').style.display = 'none';
-	}
 
+	$(function () {
+		$('[data-toggle="tooltip"]').tooltip();
+	});
 </script>
 
 
+<style>
+	.coolinput {
+		margin-bottom: 15px;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.coolinput label {
+		font-size: 14px;
+		margin-bottom: 5px;
+		color: #333;
+	}
+
+	.input {
+		padding: 10px;
+		font-size: 16px;
+		border: 2px solid #ccc;
+		border-radius: 8px;
+		transition: border-color 0.3s ease;
+	}
+
+	.input:focus {
+		border-color: #4CAF50;
+		outline: none;
+	}
+</style>
+
+
+<!-- Order Confirmation Message -->
+<div class="order-confirmation" id="orderConfirmation"
+	style="display:none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; width: auto; max-width: 400px; padding: 20px; background-color: #4caf50; color: white; text-align: center; font-size: 14px; border-radius: 8px;">
+	<div class="card">
+		<button type="button" class="dismiss" onclick="dismissCard()">×</button>
+		<div class="header">
+			<div class="image">
+				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+					<path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="#000000"
+						d="M20 7L9.00004 18L3.99994 13"></path>
+				</svg>
+			</div>
+			<div class="content">
+				<span class="title">Form sent</span>
+				<p class="message">Thank you for filling it out. You can now view the result or create a new one.</p>
+			</div>
+			<div class="actions">
+				<button type="button" class="history">History</button>
+				<button type="button" class="track">New Form</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Loading Spinner (oculto por defecto) -->
+<div id="loadingSpinner" style="display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999; text-align: center;">
+	<div class="spinner-border text-primary" role="status" style="width: 4rem; height: 4rem;">
+		<span class="sr-only">Loading...</span>
+	</div>
+	<p style="margin-top: 15px; font-size: 18px; font-weight: bold;">Realizando predicción...</p>
+</div>
 
 {% endblock %}

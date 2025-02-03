@@ -65,30 +65,5 @@ def alert(request, pk):
     }
     return render(request, 'detection/alert.html', context)
 
-def process_form(request):
-    if request.method == "POST":
-        # Captura los valores del formulario
-        visitor_type = request.POST.get('visitorType', '')
-        month = request.POST.get('month', '')
-        weekend = request.POST.get('weekend', '')
-
-        # Lógica para procesar los valores
-        data = {
-            'visitor_type': visitor_type,
-            'month': month,
-            'weekend': weekend,
-        }
-
-        # Aquí puedes realizar cualquier acción, como enviar estos datos a un modelo de predicción
-        prediction = my_prediction_model(data)  # Ejemplo de llamada a una función
-
-        # Devolver los resultados al template
-        return render(request, 'resultas.html', {'prediction': prediction})
-
-    return render(request, 'formulario.html')
-
-
-
-
 def resultsPage(request):
     return render(request, 'detection/results.html', {'predicciones': predicciones_lista})

@@ -1,3 +1,4 @@
+{% extends 'detection/main.html' %}
 {% load static %}
 
 <!DOCTYPE html>
@@ -72,20 +73,44 @@
         }
     </style>
 
-    {% include 'detection/main.html' %}
-    <div class="content-container">
-        <h2>Predicciones Realizadas</h2>
-        <ul class="list-group">
-            {% for prediccion in predicciones %}
-                <li class="list-group-item">
-                    <strong>Predicción:</strong> {{ prediccion.prediction }} <br>
-                    <strong>Explicación:</strong> {{ prediccion.explanation }}
-                </li>
-            {% empty %}
-                <li class="list-group-item">No hay predicciones disponibles.</li>
-            {% endfor %}
-        </ul>
-    </div>
+{% block content %}
+<h2>Predicciones Realizadas</h2>
+<ul class="list-group">
+    {% for prediccion in predicciones %}
+        <li class="list-group-item">
+            <strong>Predicción:</strong> {{ prediccion.prediction }} <br>
+            <strong>Explicación:</strong> {{ prediccion.explanation }} <br>
+            {% if prediccion.audio %}
+                <div>
+                    <strong>Audio:</strong><br>
+                    <audio controls>
+                        <source src="data:audio/wav;base64,{{ prediccion.audio }}" type="audio/wav">
+                        Tu navegador no soporta el elemento de audio.
+                    </audio>
+                </div>
+            {% endif %}
+
+            {% if prediccion.grafico_importancia %}
+                <div>
+                    <strong>Gráfico de Importancia:</strong><br>
+                    <img src="data:image/png;base64,{{ prediccion.grafico_importancia }}" alt="Gráfico de Importancia" style="max-width: 100%;">
+                </div>
+            {% endif %}
+            
+            {% if prediccion.grafico_probabilidades %}
+                <div>
+                    <strong>Gráfico de Probabilidades:</strong><br>
+                    <img src="data:image/png;base64,{{ prediccion.grafico_probabilidades }}" alt="Gráfico de Probabilidades" style="max-width: 100%;">
+                </div>
+            {% endif %}
+        </li>
+    {% empty %}
+        <li class="list-group-item">No hay predicciones disponibles.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
+
+
 </body>
 
 </html>
