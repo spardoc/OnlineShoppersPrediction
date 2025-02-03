@@ -28,6 +28,19 @@ class UploadAlert(models.Model):
     location = models.CharField(max_length=200)
     date_created = models.DateTimeField(auto_now_add=True)
 
+class Prediction(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # Relación con el usuario
+    prediction = models.CharField(max_length=255)
+    explanation = models.TextField()
+    audio = models.TextField(blank=True, null=True)  # Base64 del audio
+    grafico_importancia = models.TextField(blank=True, null=True)  # Base64 de la imagen
+    grafico_probabilidades = models.TextField(blank=True, null=True)  # Base64 de la imagen
+    created_at = models.DateTimeField(auto_now_add=True)  # Para ordenarlas por fecha
+
+    def __str__(self):
+        return f"Predicción de {self.user.username} - {self.created_at}"
+
+
 # Generate and save a token each time a user is saved in a database
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):

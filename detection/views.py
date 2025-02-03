@@ -6,7 +6,7 @@ from .forms import CreateUserForm
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.decorators import login_required
 from .filters import DetectionFilter
-from .models import UploadAlert
+from .models import UploadAlert, Prediction
 from django.shortcuts import render
 from prediction_rest.views import predicciones_lista  # Importar la variable
 
@@ -66,4 +66,10 @@ def alert(request, pk):
     return render(request, 'detection/alert.html', context)
 
 def resultsPage(request):
-    return render(request, 'detection/results.html', {'predicciones': predicciones_lista})
+    if request.user.is_authenticated:  # Asegurar que hay un usuario logueado
+        predicciones = Prediction.objects.filter(user=request.user).order_by('-created_at')
+    else:
+        predicciones = []  # Si no está autenticado, no mostrar predicciones
+
+    return render(request, 'detection/results.html', {'predicciones': predicciones})
+

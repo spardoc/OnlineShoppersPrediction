@@ -22,10 +22,7 @@ from openai import OpenAI
 import openai
 from google.cloud import texttospeech
 from rest_framework import status
-
-
-
-
+from detection.models import Prediction
 
 load_dotenv()
 
@@ -143,17 +140,23 @@ def predecir_compra(request):
         explanation = generar_explicacion(df_sample, prediction)
         audio_base64 = generar_audio(explanation)
 
-        # Guardar predicción y explicación en la lista
-        predicciones_lista.append({
+        predictionObject = Prediction.objects.create(
+            user=request.user,  # Asignar al usuario autenticado
+            prediction=result,
+            explanation=explanation,
+            audio=audio_base64,
+            grafico_importancia=grafico_importancia_base64,
+            grafico_probabilidades=grafico_probabilidades_base64
+        )
+        predictionObject.save()
+
+        return Response({
             'prediction': result,
             'explanation': explanation,
             'audio': audio_base64,
             'grafico_importancia': grafico_importancia_base64,
             'grafico_probabilidades': grafico_probabilidades_base64
-        })
-
-        # Redirigir a la página de resultados
-        return redirect(reverse('results'))
+        }, status=200)
 
     except Exception as e:
         print(f"Error: {str(e)}")
