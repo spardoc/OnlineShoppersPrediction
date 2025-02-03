@@ -25,5 +25,6 @@ urlpatterns = [
         name="password_reset_complete"),
     path('alert/<uuid:pk>/', views.alert, name='alert'),
     path('results/', views.resultsPage, name='results'),
+    path('creators/', views.creators, name='creators'),
     
 ]

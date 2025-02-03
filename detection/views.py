@@ -72,4 +72,8 @@ def resultsPage(request):
         predicciones = []  # Si no está autenticado, no mostrar predicciones
 
     return render(request, 'detection/results.html', {'predicciones': predicciones})
+def creators(request):
+  
+
+    return render(request, 'detection/creators.html')
 
