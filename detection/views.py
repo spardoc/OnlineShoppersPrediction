@@ -7,6 +7,8 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth.decorators import login_required
 from .filters import DetectionFilter
 from .models import UploadAlert
+from django.shortcuts import render
+from prediction_rest.views import predicciones_lista  # Importar la variable
 
 def loginPage(request):
 	if request.user.is_authenticated:
@@ -81,10 +83,12 @@ def process_form(request):
         prediction = my_prediction_model(data)  # Ejemplo de llamada a una función
 
         # Devolver los resultados al template
-        return render(request, 'resultado.html', {'prediction': prediction})
+        return render(request, 'resultas.html', {'prediction': prediction})
 
     return render(request, 'formulario.html')
 
+
+
+
 def resultsPage(request):
-	context = {}
-	return render(request, 'detection/results.html', context)
+    return render(request, 'detection/results.html', {'predicciones': predicciones_lista})

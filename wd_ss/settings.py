@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_extensions',
     'tailwind',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -58,7 +59,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
+
 
 
 ROOT_URLCONF = 'wd_ss.urls'
@@ -66,7 +71,7 @@ ROOT_URLCONF = 'wd_ss.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'detection/templates')],  # Ruta a la carpeta de plantillas
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -78,6 +83,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'wd_ss.wsgi.application'
 

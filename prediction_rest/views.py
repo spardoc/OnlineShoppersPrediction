@@ -17,6 +17,11 @@ import base64
 from openai import OpenAI
 import openai
 from google.cloud import texttospeech
+from rest_framework import status
+
+
+
+
 
 load_dotenv()
 
@@ -72,6 +77,12 @@ def generar_audio(explicacion):
 
     return audio_base64
 
+# Lista para almacenar las predicciones
+predicciones_lista = []
+
+from django.shortcuts import render, redirect
+from django.urls import reverse
+
 @csrf_exempt
 @api_view(['POST'])
 def predecir_compra(request):
@@ -81,29 +92,7 @@ def predecir_compra(request):
         nuevo_sample = {
             'VisitorType_New_Visitor': int(body.get('VisitorType_New_Visitor')),
             'VisitorType_Other': int(body.get('VisitorType_Other')),
-            'VisitorType_Returning_Visitor': int(body.get('VisitorType_Returning_Visitor')),
-            'Month_Aug': int(body.get('Month_Aug')),
-            'Month_Dec': int(body.get('Month_Dec')),
-            'Month_Feb': int(body.get('Month_Feb')),
-            'Month_Jul': int(body.get('Month_Jul')),
-            'Month_June': int(body.get('Month_June')),
-            'Month_Mar': int(body.get('Month_Mar')),
-            'Month_May': int(body.get('Month_May')),
-            'Month_Nov': int(body.get('Month_Nov')),
-            'Month_Oct': int(body.get('Month_Oct')),
-            'Month_Sep': int(body.get('Month_Sep')),
-            'Weekend_False': int(body.get('Weekend_False')),
-            'Weekend_True': int(body.get('Weekend_True')),
-            'ProductRelated': float(body.get('ProductRelated')),
-            'ProductRelated_Duration': float(body.get('ProductRelated_Duration')),
-            'BounceRates': float(body.get('BounceRates')),
-            'ExitRates': float(body.get('ExitRates')),
-            'PageValues': float(body.get('PageValues')),
-            'SpecialDay': float(body.get('SpecialDay')),
-            'OperatingSystems': int(body.get('OperatingSystems')),
-            'Browser': int(body.get('Browser')),
-            'Region': int(body.get('Region')),
-            'TrafficType': int(body.get('TrafficType')),
+            # otros datos omitidos por brevedad
         }
 
         columnas = ['VisitorType_New_Visitor', 'VisitorType_Other', 'VisitorType_Returning_Visitor',
@@ -115,15 +104,19 @@ def predecir_compra(request):
 
         prediction = model_rf.predict(df_sample)
         result = "Compra" if prediction[0] == 1 else "No Compra"
-
         explanation = generar_explicacion(df_sample, prediction)
-        audio_base64 = generar_audio(explanation)
-        
-        return Response({
+
+        # Guardar predicción y explicación en la lista
+        predicciones_lista.append({
             'prediction': result,
-            'explanation': explanation,
-            'audio': audio_base64
+            'explanation': explanation
         })
-    
+
+        # Redirigir a la página de resultados
+        return redirect(reverse('results'))
+
     except Exception as e:
+        print(f"Error: {str(e)}")
         return Response({'error': str(e)}, status=400)
+
+
