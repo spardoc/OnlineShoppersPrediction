@@ -217,15 +217,25 @@
         throw new Error("Error al enviar los datos");
       }
 
-      const result = await response.json();
-      console.log(result);
-		// Obtener el mensaje de predicción
-		const prediction = result.prediccion;
+		const result = await response.json();
+		console.log(result);
+
+		// Obtener los valores devueltos por la API
+		const prediction = result.prediction;
+		const explanation = result.explanation;
+		const audioBase64 = result.audio;
 
 		// Mostrar el mensaje de confirmación con la predicción
 		const confirmationMessage = document.getElementById('orderConfirmation');
 		const messageContent = confirmationMessage.querySelector('.message');
-		messageContent.textContent = `Predicción: ${prediction}`;
+		messageContent.innerHTML = `
+        <p><strong>Predicción:</strong> ${prediction}</p>
+        <p><strong>Explicación:</strong> ${explanation}</p>
+        <audio controls>
+			<source src="data:audio/wav;base64,${audioBase64}" type="audio/wav">
+			Tu navegador no soporta la reproducción de audio.
+        </audio>
+		`;
 
 		// Mostrar el mensaje de confirmación
 		confirmationMessage.style.display = 'block';
@@ -233,7 +243,7 @@
 		// Ocultar mensaje después de 4 segundos (opcional)
 		setTimeout(function() {
 		confirmationMessage.style.display = 'none';
-		}, 6000);
+		}, 60000);
 		} catch (error) {
 		console.error(error);
 		alert("Hubo un error al enviar los datos");
@@ -369,6 +379,3 @@
 
 
 {% endblock %}
-
-			
-			

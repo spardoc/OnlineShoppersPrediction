@@ -9,31 +9,75 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 import pandas as pd
 import joblib
-import re
+from pyht import Client
+from dotenv import load_dotenv
+from pyht.client import TTSOptions
+import os
+import base64
+from openai import OpenAI
+import openai
+from google.cloud import texttospeech
 
-# Thread decorator definition
-def start_new_thread(function):
-    def decorator(*args, **kwargs):
-        t = Thread(target = function, args=args, kwargs=kwargs)
-        t.daemon = True
-        t.start()
-    return decorator
+load_dotenv()
 
-# Splits string into a list
-def split(value, key):
-    return str(value).split(key)
+client = OpenAI(
+    api_key=os.environ.get("OPENAI_API_KEY"),
+)
 
-# Cargar el modelo entrenado
-modelo_rf = joblib.load('random_forest_model.pkl')
+model_rf = joblib.load('random_forest_model.pkl')
+
+def generar_explicacion(sample_df, prediccion):
+    prompt = (
+        f"Eres un experto en datos y análisis y estas trabajando con el dataset Online Shoppers Purchasing Intention Dataset." \
+        f"Dados los siguientes datos: {sample_df.to_dict(orient='records')[0]}, " \
+        f"y la predicción: {'Compra' if prediccion[0] == 1 else 'No Compra'}, "
+        "explica de forma clara por qué se tomó esta decisión."
+    )
+    
+    try:
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": "user", "content": prompt}]
+        )
+        explicacion = response.choices[0].message.content.strip()
+        return explicacion
+    except Exception as e:
+        return f"No se pudo generar una explicación: {str(e)}"
+
+def generar_audio(explicacion):
+    credentials_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+    if not credentials_path:
+        raise ValueError("La variable GOOGLE_APPLICATION_CREDENTIALS no está configurada en el .env")
+
+    client = texttospeech.TextToSpeechClient()
+
+    synthesis_input = texttospeech.SynthesisInput(text=explicacion)
+
+    voice = texttospeech.VoiceSelectionParams(
+        language_code="es-ES",
+        ssml_gender=texttospeech.SsmlVoiceGender.NEUTRAL
+    )
+
+    audio_config = texttospeech.AudioConfig(
+        audio_encoding=texttospeech.AudioEncoding.MP3
+    )
+
+    response = client.synthesize_speech(
+        input=synthesis_input,
+        voice=voice,
+        audio_config=audio_config
+    )
+
+    audio_base64 = base64.b64encode(response.audio_content).decode("utf-8")
+
+    return audio_base64
 
 @csrf_exempt
 @api_view(['POST'])
 def predecir_compra(request):
     try:
-        # Recibir los datos como JSON
         body = request.data
 
-        # Mapear los datos al formato esperado
         nuevo_sample = {
             'VisitorType_New_Visitor': int(body.get('VisitorType_New_Visitor')),
             'VisitorType_Other': int(body.get('VisitorType_Other')),
@@ -62,7 +106,6 @@ def predecir_compra(request):
             'TrafficType': int(body.get('TrafficType')),
         }
 
-        # Convertir el sample a DataFrame
         columnas = ['VisitorType_New_Visitor', 'VisitorType_Other', 'VisitorType_Returning_Visitor',
                     'Month_Aug', 'Month_Dec', 'Month_Feb', 'Month_Jul', 'Month_June', 'Month_Mar',
                     'Month_May', 'Month_Nov', 'Month_Oct', 'Month_Sep', 'Weekend_False', 'Weekend_True',
@@ -70,14 +113,17 @@ def predecir_compra(request):
                     'PageValues', 'SpecialDay', 'OperatingSystems', 'Browser', 'Region', 'TrafficType']
         df_sample = pd.DataFrame([nuevo_sample], columns=columnas)
 
-        # Realizar la predicción
-        prediccion = modelo_rf.predict(df_sample)
+        prediction = model_rf.predict(df_sample)
+        result = "Compra" if prediction[0] == 1 else "No Compra"
 
-        # Interpretar la predicción
-        resultado = "Compra" if prediccion[0] == 1 else "No Compra"
-
-        # Retornar la respuesta
-        return Response({'prediccion': resultado})
+        explanation = generar_explicacion(df_sample, prediction)
+        audio_base64 = generar_audio(explanation)
+        
+        return Response({
+            'prediction': result,
+            'explanation': explanation,
+            'audio': audio_base64
+        })
     
     except Exception as e:
         return Response({'error': str(e)}, status=400)
