@@ -85,3 +85,6 @@ def process_form(request):
 
     return render(request, 'formulario.html')
 
+def resultsPage(request):
+	context = {}
+	return render(request, 'detection/results.html', context)

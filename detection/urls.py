@@ -24,4 +24,5 @@ urlpatterns = [
         auth_views.PasswordResetCompleteView.as_view(template_name="detection/password_reset_done.html"), 
         name="password_reset_complete"),
     path('alert/<uuid:pk>/', views.alert, name='alert'),
+    path('results/', views.resultsPage, name='results'),
 ]
